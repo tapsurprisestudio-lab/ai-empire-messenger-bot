@@ -71,9 +71,7 @@ Response style:
 function normalizeMessage(input) {
   if (!input) return "";
 
-  if (typeof input === "string") {
-    return input;
-  }
+  if (typeof input === "string") return input;
 
   if (typeof input === "object") {
     if (input.text) return String(input.text);
@@ -97,7 +95,7 @@ function parseAIResponse(raw) {
   }
 
   try {
-    const clean = raw
+    const clean = String(raw)
       .replace(/```json\n?/g, "")
       .replace(/```\n?/g, "")
       .trim();
@@ -168,10 +166,15 @@ async function chat(message, userContext = []) {
     );
 
     const raw =
-      response.data &&
-      response.data.choices &&
-      response.data.choices[0] &&
-      response.data.choices[0].message &&
+      response.data?.choices?.[0]?.message?.content ||
+      "مرحباً بك في AI Empire Studio 🔥 كيف نقدر نساعدك اليوم؟";
+
+    return parseAIResponse(raw);
+  } catch (error) {
+    logger.error(
+      "AI Service Error:",
+      error.response ? error.response.data : error.message
+    );
 
     return getFallbackResponse();
   }
