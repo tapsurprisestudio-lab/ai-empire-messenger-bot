@@ -156,7 +156,7 @@ async function chat(message, userContext = []) {
       },
       {
         headers: {
-          Authorization: Bearer ${process.env.AI_API_KEY},
+          Authorization: `Bearer ${process.env.AI_API_KEY}`,
           "Content-Type": "application/json",
           "HTTP-Referer":
             process.env.PUBLIC_URL ||
