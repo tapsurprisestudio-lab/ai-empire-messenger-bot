@@ -172,3 +172,9 @@ async function chat(message, userContext = []) {
       response.data.choices &&
       response.data.choices[0] &&
       response.data.choices[0].message &&
+
+    return getFallbackResponse();
+  }
+}
+
+module.exports = { chat };
